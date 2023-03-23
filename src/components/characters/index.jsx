@@ -11,17 +11,35 @@ const Characters = () => {
   const [charEnded, setCharEnded] = useState(false);
   const [favourites, setFavourites] = useState([]);
 
-  const observer = useRef();
-  const lastComicsRef = useCallback();
-
   const { getAllCharacters, process, setProcess } = useMarvelService();
+
+  const observer = useRef();
+
+  const lastComicsRef = useCallback(
+    (node) => {
+      if (process === "loading") return;
+      if (observer.current) {
+        observer.current.disconnect();
+      }
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && !charEnded) {
+          onRequest(offset);
+        }
+      });
+      if (node) {
+        observer.current.observe(node);
+      }
+      console.log(node);
+    },
+    [process, charEnded]
+  );
 
   useEffect(() => {
     const existingFavourites = JSON.parse(
       localStorage.getItem("marvelFavourites")
     );
 
-    if (existingFavourites) {
+    if (existingFavourites && existingFavourites.length) {
       setFavourites(existingFavourites);
     }
 
@@ -57,14 +75,16 @@ const Characters = () => {
     localStorage.setItem("marvelFavourites", JSON.stringify(uniqueFavourites));
   };
 
-  const highlighted = (id) => {
-    return favourites.find((i) => i === id) ? "char__item_selected" : "";
-  };
-
   const elements = () => {
     return setContent(
       process,
-      () => <CharList characters={charList} onFavourite={onFavourite} />,
+      () => (
+        <CharList
+          characters={charList}
+          onFavourite={onFavourite}
+          lastComicsRef={lastComicsRef}
+        />
+      ),
       newItemLoading
     );
   };
@@ -72,14 +92,14 @@ const Characters = () => {
   return (
     <div className="char__list">
       {elements()}
-      <button
+      {/* <button
         className="button button__main button__long"
         disabled={newItemLoading}
         style={{ display: charEnded ? "none" : "block" }}
         onClick={() => onRequest(offset)}
       >
         <div className="inner">load more</div>
-      </button>
+      </button> */}
     </div>
   );
 };
