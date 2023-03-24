@@ -69,8 +69,10 @@ const Characters = () => {
       .then(() => setProcess("confirmed"));
   };
 
-  const onFavourite = (id) => {
-    const uniqueFavourites = [...new Set([...favourites, id])];
+  const onFavouriteToggle = (id, isFavourite) => {
+    const uniqueFavourites = isFavourite
+      ? favourites.filter((favId) => favId !== id)
+      : [...new Set([...favourites, id])];
     setFavourites(uniqueFavourites);
     localStorage.setItem("marvelFavourites", JSON.stringify(uniqueFavourites));
   };
@@ -81,27 +83,16 @@ const Characters = () => {
       () => (
         <CharList
           characters={charList}
-          onFavourite={onFavourite}
+          onFavouriteToggle={onFavouriteToggle}
           lastComicsRef={lastComicsRef}
+          favourites={favourites}
         />
       ),
       newItemLoading
     );
   };
 
-  return (
-    <div className="char__list">
-      {elements()}
-      {/* <button
-        className="button button__main button__long"
-        disabled={newItemLoading}
-        style={{ display: charEnded ? "none" : "block" }}
-        onClick={() => onRequest(offset)}
-      >
-        <div className="inner">load more</div>
-      </button> */}
-    </div>
-  );
+  return <div className="char__list">{elements()}</div>;
 };
 
 // CharList.propTypes = {

@@ -4,8 +4,6 @@ import Characters from "../characters";
 import ErrorBoundary from "../errorBoundary";
 
 const MainPage = () => {
-  console.log("render");
-
   return (
     <>
       <Helmet>

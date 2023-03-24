@@ -15,7 +15,7 @@ const Header = () => {
             <NavLink
               end
               style={({ isActive }) => ({
-                color: isActive ? "#9f0012" : "inherit",
+                color: isActive ? "#007782" : "inherit",
               })}
               to="/"
             >
@@ -26,7 +26,7 @@ const Header = () => {
           <li>
             <NavLink
               style={({ isActive }) => ({
-                color: isActive ? "#9f0012" : "inherit",
+                color: isActive ? "#007782" : "inherit",
               })}
               to="/favourites"
             >
