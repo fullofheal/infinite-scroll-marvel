@@ -2,8 +2,8 @@ import React from "react";
 const StarIcon = () => {
   return (
     <svg
-      height="800px"
-      width="800px"
+      height="auto"
+      width="auto"
       version="1.1"
       id="Capa_1"
       xmlns="http://www.w3.org/2000/svg"
@@ -13,10 +13,9 @@ const StarIcon = () => {
     >
       <path
         style={{
-          fill: "#007782",
+          fill: "#04a1b0",
           stroke: "#FFFFFF",
-          strokeWidth: "2px",
-          strokeLinejoin: "round",
+          strokeWidth: "1px",
         }}
         d="M26.285,2.486l5.407,10.956c0.376,0.762,1.103,1.29,1.944,1.412l12.091,1.757
 		c2.118,0.308,2.963,2.91,1.431,4.403l-8.749,8.528c-0.608,0.593-0.886,1.448-0.742,2.285l2.065,12.042

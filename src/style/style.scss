@@ -118,7 +118,7 @@ main {
         opacity: 1;
       }
       img {
-        filter: grayscale(1) blur(2px) brightness(50%);
+        filter: blur(2px) brightness(50%);
       }
     }
     @media (max-width: 1200px) {
