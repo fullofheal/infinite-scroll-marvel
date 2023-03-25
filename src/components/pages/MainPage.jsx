@@ -62,18 +62,17 @@ const MainPage = () => {
     if (newCharList.length < 9) {
       ended = true;
     }
-
-    // newCharList.filter((newChar) =>
-    //   charList.find((char) => {
-    //     return char.id !== newChar.id;
-    //   })
-    // );
-
-    setCharList((charList) => [...charList, ...newCharList]);
+    const charsWithImg = newCharList.filter(
+      (char) =>
+        char.thumbnail !==
+          "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" &&
+        char.thumbnail !==
+          "http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708.gif"
+    );
+    setCharList((charList) => [...charList, ...charsWithImg]);
     setOffset((offset) => offset + 9);
     setCharEnded(ended);
   };
-  // console.log(charList);
 
   const updateList = (offset) => {
     getAllCharacters(offset)
