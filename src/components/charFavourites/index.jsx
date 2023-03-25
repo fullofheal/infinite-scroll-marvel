@@ -18,33 +18,26 @@ const CharFavourites = () => {
     } else {
       setProcess("empty");
     }
-    console.log("render");
   }, []);
 
-  // async function fetchFavourites(favourites) {
-  //   for (let id of favourites) {
-  //     const char = await getCharacter(id);
-  //     setFavourites((items) => {
-  //       return items.find((item) => item.id === char.id)
-  //         ? items
-  //         : [...items, char];
-  //     });
-  //   }
-  //   setProcess("confirmed");
-  // }
-  async function fetchFavourites(favourites) {
-    for (let id of favourites) {
-      const char = await getCharacter(id);
-      setFavourites((items) => {
-        return items.find((item) => item.id === char.id)
-          ? items
-          : [...items, char];
-      });
-    }
-    setProcess("confirmed");
-  }
+  const fetchFavourites = (favourites) => {
+    favourites.forEach((charId) => {
+      getCharacter(charId)
+        .then((char) => {
+          setFavourites((items) => {
+            return items.find((item) => item.id === char.id)
+              ? items
+              : [...items, char];
+          });
+        })
+        .then(() => setProcess("confirmed"));
+    });
+  };
 
   const onRemove = (id) => {
+    if (favourites.length === 1) {
+      setProcess("empty");
+    }
     const filteredFavs = favourites.filter((char) => char.id !== id);
     setFavourites(filteredFavs);
     localStorage.setItem(
