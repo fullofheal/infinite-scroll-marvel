@@ -2,11 +2,11 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import PropTypes from "prop-types";
 import useMarvelService from "../../services/MarvelService";
 import setContent from "../../utils/setContent";
-import CharList from "../charList";
+import CharList from "../CharList";
 
 const Characters = () => {
   const [charList, setCharList] = useState([]);
-  const [newItemLoading, setNewItemLoading] = useState(false);
+  const [hideSpinner, setHideSpinner] = useState(false);
   const [offset, setOffset] = useState(210);
   const [charEnded, setCharEnded] = useState(false);
   const [favourites, setFavourites] = useState([]);
@@ -47,7 +47,7 @@ const Characters = () => {
   }, []);
 
   const onRequest = (offset, initial) => {
-    initial ? setNewItemLoading(false) : setNewItemLoading(true);
+    initial ? setHideSpinner(false) : setHideSpinner(true);
     updateList(offset);
   };
 
@@ -58,7 +58,6 @@ const Characters = () => {
       ended = true;
     }
     setCharList((charList) => [...charList, ...newCharList]);
-    setNewItemLoading(false);
     setOffset((offset) => offset + 9);
     setCharEnded(ended);
   };
@@ -88,7 +87,7 @@ const Characters = () => {
           favourites={favourites}
         />
       ),
-      newItemLoading
+      hideSpinner
     );
   };
 

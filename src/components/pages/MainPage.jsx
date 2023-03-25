@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet";
-import AppBanner from "../appBanner/AppBanner";
-import Characters from "../characters";
-import ErrorBoundary from "../errorBoundary";
+import AppBanner from "../AppBanner";
+import Characters from "../Characters";
+import ErrorBoundary from "../ErrorBoundary";
 
 const MainPage = () => {
   return (

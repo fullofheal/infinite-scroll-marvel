@@ -1,13 +1,13 @@
 import Spinner from "../components/spinner";
-import ErrorMessage from "../components/errorMessage";
-import EmptyFavourites from "../components/charFavourites/EmptyFavourites";
+import ErrorMessage from "../components/ErrorMessage";
+import EmptyFavourites from "../components/CharFavourites/EmptyFavourites";
 
-const setContent = (process, Component, newItemLoading) => {
+const setContent = (process, Component, hideSpinner) => {
   switch (process) {
     case "waiting":
       return <Spinner />;
     case "loading":
-      return newItemLoading ? <Component /> : <Spinner />;
+      return hideSpinner ? <Component /> : <Spinner />;
     case "confirmed":
       return <Component />;
     case "empty":

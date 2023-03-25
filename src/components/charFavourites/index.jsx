@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import useMarvelService from "../../services/MarvelService";
 import setContent from "../../utils/setContent";
-import CharList from "../charList";
+import CharList from "../CharList";
 
 const CharFavourites = () => {
   const [favourites, setFavourites] = useState([]);
@@ -21,6 +21,17 @@ const CharFavourites = () => {
     console.log("render");
   }, []);
 
+  // async function fetchFavourites(favourites) {
+  //   for (let id of favourites) {
+  //     const char = await getCharacter(id);
+  //     setFavourites((items) => {
+  //       return items.find((item) => item.id === char.id)
+  //         ? items
+  //         : [...items, char];
+  //     });
+  //   }
+  //   setProcess("confirmed");
+  // }
   async function fetchFavourites(favourites) {
     for (let id of favourites) {
       const char = await getCharacter(id);
@@ -33,12 +44,19 @@ const CharFavourites = () => {
     setProcess("confirmed");
   }
 
-  const onRemove = () => {};
+  const onRemove = (id) => {
+    const filteredFavs = favourites.filter((char) => char.id !== id);
+    setFavourites(filteredFavs);
+    localStorage.setItem(
+      "marvelFavourites",
+      JSON.stringify(filteredFavs.map((char) => char.id))
+    );
+  };
 
   const elements = () => {
     return setContent(
       process,
-      () => <CharList characters={favourites} onFavourite={onRemove} />,
+      () => <CharList characters={favourites} onFavouriteToggle={onRemove} />,
       false
     );
   };

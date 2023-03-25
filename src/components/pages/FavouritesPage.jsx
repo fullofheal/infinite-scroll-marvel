@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet";
-import AppBanner from "../appBanner/AppBanner";
-import CharFavourites from "../charFavourites";
-import ErrorBoundary from "../errorBoundary";
+import AppBanner from "../AppBanner";
+import CharFavourites from "../CharFavourites";
+import ErrorBoundary from "../ErrorBoundary";
 
 const FavouritesPage = () => {
   return (
