@@ -17,6 +17,22 @@ const MainPage = () => {
   const { getAllCharacters, process, setProcess } = useMarvelService();
 
   const observer = useRef();
+  const effectUsed = useRef(false);
+
+  useEffect(() => {
+    if (effectUsed.current === false) {
+      const existingFavourites = JSON.parse(
+        localStorage.getItem("marvelFavourites")
+      );
+
+      if (existingFavourites && existingFavourites.length) {
+        setFavourites(existingFavourites);
+      }
+
+      onRequest(offset, true);
+      effectUsed.current = true;
+    }
+  }, []);
 
   const lastComicsRef = useCallback(
     (node) => {
@@ -36,18 +52,6 @@ const MainPage = () => {
     [process, charEnded]
   );
 
-  useEffect(() => {
-    const existingFavourites = JSON.parse(
-      localStorage.getItem("marvelFavourites")
-    );
-
-    if (existingFavourites && existingFavourites.length) {
-      setFavourites(existingFavourites);
-    }
-
-    onRequest(offset, true);
-  }, []);
-
   const onRequest = (offset, initial) => {
     initial ? setHideSpinner(false) : setHideSpinner(true);
     updateList(offset);
@@ -55,14 +59,21 @@ const MainPage = () => {
 
   const onCharListLoaded = (newCharList) => {
     let ended = false;
-
     if (newCharList.length < 9) {
       ended = true;
     }
+
+    // newCharList.filter((newChar) =>
+    //   charList.find((char) => {
+    //     return char.id !== newChar.id;
+    //   })
+    // );
+
     setCharList((charList) => [...charList, ...newCharList]);
     setOffset((offset) => offset + 9);
     setCharEnded(ended);
   };
+  // console.log(charList);
 
   const updateList = (offset) => {
     getAllCharacters(offset)
