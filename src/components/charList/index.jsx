@@ -1,6 +1,5 @@
 import React from "react";
 import StarIcon from "./StarIcon";
-import setContent from "../../utils/setContent";
 
 const CharList = ({
   characters,
