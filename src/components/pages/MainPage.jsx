@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Helmet } from "react-helmet";
 import PropTypes from "prop-types";
-import AppBanner from "../AppBanner";
+import Banner from "../Banner";
 import ErrorBoundary from "../ErrorBoundary";
-import useMarvelService from "../../services/MarvelService";
+import useMarvelService from "../../services/marvelService";
+import filterWithImg from "../../utils/filterWithImg";
 import setContent from "../../utils/setContent";
 import CharList from "../CharList";
 
@@ -52,32 +53,22 @@ const MainPage = () => {
     [process, charEnded]
   );
 
-  const onRequest = (offset, initial) => {
-    initial ? setHideSpinner(false) : setHideSpinner(true);
+  const onRequest = (offset, hideSpinner = true) => {
+    setHideSpinner(hideSpinner);
     updateList(offset);
   };
 
   const onCharListLoaded = (newCharList) => {
-    let ended = false;
-    if (newCharList.length < 9) {
-      ended = true;
-    }
-    const charsWithImg = newCharList.filter(
-      (char) =>
-        char.thumbnail !==
-          "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg" &&
-        char.thumbnail !==
-          "http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708.gif"
-    );
+    setCharEnded(newCharList.length < 9);
+    const charsWithImg = filterWithImg(newCharList);
     setCharList((charList) => [...charList, ...charsWithImg]);
     setOffset((offset) => offset + 9);
-    setCharEnded(ended);
   };
 
   const updateList = (offset) => {
     getAllCharacters(offset)
       .then(onCharListLoaded)
-      .then(() => setProcess("confirmed"));
+      .then(() => setProcess("loaded"));
   };
 
   const onFavouriteToggle = (id, isFavourite) => {
@@ -109,7 +100,7 @@ const MainPage = () => {
         <meta name="description" content="Marvel characters information" />
         <title>Marvel information portal</title>
       </Helmet>
-      <AppBanner page="main" />
+      <Banner page="main" />
       <div className="char__content">
         <ErrorBoundary>{elements()}</ErrorBoundary>
       </div>

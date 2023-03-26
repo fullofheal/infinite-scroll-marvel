@@ -1,12 +1,12 @@
-import "./appBanner.scss";
+import "./banner.scss";
 import avengers from "../../resources/img/Avengers.png";
 import avengersLogo from "../../resources/img/Avengers_logo.png";
 
-const AppBanner = ({ page }) => {
+const Banner = ({ page }) => {
   return (
-    <div className="app__banner">
+    <div className="banner">
       <img src={avengers} alt="Avengers" />
-      <div className="app__banner-text">
+      <div className="banner-text">
         {page === "main"
           ? "More than 1500 superheroes to explore!"
           : "The list of your favourite superheroes!"}
@@ -18,4 +18,4 @@ const AppBanner = ({ page }) => {
   );
 };
 
-export default AppBanner;
+export default Banner;

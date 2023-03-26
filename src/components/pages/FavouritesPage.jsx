@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
-import AppBanner from "../AppBanner";
+import Banner from "../Banner";
 import ErrorBoundary from "../ErrorBoundary";
 import PropTypes from "prop-types";
-import useMarvelService from "../../services/MarvelService";
+import useMarvelService from "../../services/marvelService";
 import setContent from "../../utils/setContent";
 import CharList from "../CharList";
 
@@ -33,7 +33,7 @@ const FavouritesPage = () => {
               : [...items, char];
           });
         })
-        .then(() => setProcess("confirmed"));
+        .then(() => setProcess("loaded"));
     });
   };
 
@@ -63,7 +63,7 @@ const FavouritesPage = () => {
         <meta name="description" content="Page with list of favourite comics" />
         <title>Favourites page</title>
       </Helmet>
-      <AppBanner page="favourites" />
+      <Banner page="favourites" />
       <div className="char__content">
         <ErrorBoundary>
           <div className="char__list">

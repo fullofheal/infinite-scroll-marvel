@@ -1,6 +1,6 @@
 import Spinner from "../components/Spinner";
 import ErrorMessage from "../components/ErrorMessage";
-import mjolnir from "../resources/img/mjolnir.png";
+import EmptyFavourites from "../components/EmptyFavourites";
 
 const setContent = (process, Component, hideSpinner) => {
   switch (process) {
@@ -8,7 +8,7 @@ const setContent = (process, Component, hideSpinner) => {
       return <Spinner />;
     case "loading":
       return hideSpinner ? <Component /> : <Spinner />;
-    case "confirmed":
+    case "loaded":
       return <Component />;
     case "empty":
       return <EmptyFavourites />;
@@ -17,19 +17,6 @@ const setContent = (process, Component, hideSpinner) => {
     default:
       throw new Error("Unexpected process state");
   }
-};
-
-const EmptyFavourites = () => {
-  return (
-    <div className="char__empty-favourites">
-      <p className="char__title">
-        You don't have any favourite comics so far
-        <br />
-      </p>
-      <p className="char__title">Do you want to get back and select a few?</p>
-      <img src={mjolnir} alt="mjolnir" className="char__decoration" />
-    </div>
-  );
 };
 
 export default setContent;
