@@ -10,6 +10,7 @@ const StarIcon = () => {
       xmlnsXlink="http://www.w3.org/1999/xlink"
       viewBox="0 0 47.94 47.94"
       xmlSpace="preserve"
+      data-testid="StarIcon"
     >
       <path
         style={{
