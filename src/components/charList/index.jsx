@@ -36,6 +36,6 @@ const CharList = ({
     );
   });
 
-  return <ul className="char__grid">{items}</ul>;
+  return <ul className="char__wrapper">{items}</ul>;
 };
 export default CharList;
