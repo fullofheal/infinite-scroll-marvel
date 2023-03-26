@@ -30,7 +30,7 @@ const MainPage = () => {
         setFavourites(existingFavourites);
       }
 
-      onRequest(offset, true);
+      onRequest(offset, false);
       effectUsed.current = true;
     }
   }, []);

@@ -1,4 +1,4 @@
-import mjolnir from "../resources/img/mjolnir.png";
+import mjolnir from "../../resources/img/mjolnir.png";
 
 const EmptyFavourites = () => {
   return (
