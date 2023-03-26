@@ -3,21 +3,21 @@ import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
 import Banner from "../Banner";
 import ErrorBoundary from "../ErrorBoundary";
-import PropTypes from "prop-types";
 import useMarvelService from "../../services/marvelService";
 import setContent from "../../utils/setContent";
 import CharList from "../CharList";
 
 const FavouritesPage = () => {
-  const [favourites, setFavourites] = useState([]);
+  const [favouritesData, setFavouritesData] = useState([]);
 
   const navigate = useNavigate();
   const { getCharacter, process, setProcess } = useMarvelService();
 
   useEffect(() => {
     const favourites = JSON.parse(localStorage.getItem("marvelFavourites"));
-    if (favourites && favourites.length) {
-      fetchFavourites(favourites);
+    if (favourites && Object.keys(favourites).length) {
+      const favouritesArr = Object.keys(favourites);
+      fetchFavourites(favouritesArr);
     } else {
       setProcess("empty");
     }
@@ -27,7 +27,7 @@ const FavouritesPage = () => {
     favourites.forEach((charId) => {
       getCharacter(charId)
         .then((char) => {
-          setFavourites((items) => {
+          setFavouritesData((items) => {
             return items.find((item) => item.id === char.id)
               ? items
               : [...items, char];
@@ -38,21 +38,24 @@ const FavouritesPage = () => {
   };
 
   const onRemove = (id) => {
-    if (favourites.length === 1) {
+    const filteredFavs = favouritesData.filter((char) => char.id !== id);
+    setFavouritesData(filteredFavs);
+    const favouritesIds = filteredFavs.reduce((acc, cur) => {
+      acc[cur.id] = cur.id;
+      return acc;
+    }, {});
+    localStorage.setItem("marvelFavourites", JSON.stringify(favouritesIds));
+    if (!filteredFavs.length) {
       setProcess("empty");
     }
-    const filteredFavs = favourites.filter((char) => char.id !== id);
-    setFavourites(filteredFavs);
-    localStorage.setItem(
-      "marvelFavourites",
-      JSON.stringify(filteredFavs.map((char) => char.id))
-    );
   };
 
   const elements = () => {
     return setContent(
       process,
-      () => <CharList characters={favourites} onFavouriteToggle={onRemove} />,
+      () => (
+        <CharList characters={favouritesData} onFavouriteToggle={onRemove} />
+      ),
       false
     );
   };
@@ -80,9 +83,5 @@ const FavouritesPage = () => {
     </>
   );
 };
-
-// CharList.propTypes = {
-//   onCharSelected: PropTypes.func.isRequired,
-// };
 
 export default FavouritesPage;

@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Helmet } from "react-helmet";
-import PropTypes from "prop-types";
 import Banner from "../Banner";
 import ErrorBoundary from "../ErrorBoundary";
 import useMarvelService from "../../services/marvelService";
@@ -26,7 +25,7 @@ const MainPage = () => {
         localStorage.getItem("marvelFavourites")
       );
 
-      if (existingFavourites && existingFavourites.length) {
+      if (existingFavourites) {
         setFavourites(existingFavourites);
       }
 
@@ -71,12 +70,13 @@ const MainPage = () => {
       .then(() => setProcess("loaded"));
   };
 
-  const onFavouriteToggle = (id, isFavourite) => {
-    const uniqueFavourites = isFavourite
-      ? favourites.filter((favId) => favId !== id)
-      : [...new Set([...favourites, id])];
-    setFavourites(uniqueFavourites);
-    localStorage.setItem("marvelFavourites", JSON.stringify(uniqueFavourites));
+  const onFavouriteToggle = (id, isFavourite = false) => {
+    const favouritesCopy = { ...favourites, [id]: id };
+    if (isFavourite) {
+      delete favouritesCopy[id];
+    }
+    setFavourites(favouritesCopy);
+    localStorage.setItem("marvelFavourites", JSON.stringify(favouritesCopy));
   };
 
   const elements = () => {
@@ -107,9 +107,5 @@ const MainPage = () => {
     </>
   );
 };
-
-// CharList.propTypes = {
-//   onCharSelected: PropTypes.func.isRequired,
-// };
 
 export default MainPage;
